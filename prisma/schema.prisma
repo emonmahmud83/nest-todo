@@ -1,0 +1,18 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Todo {
+  id String @id @default(uuid())
+title String
+description String? 
+isComplete Boolean @default(false)
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+}

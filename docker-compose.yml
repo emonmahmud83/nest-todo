@@ -1,0 +1,71 @@
+services:
+  lawalbackendbackend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sakibsakib/lawalbackendbackendtwo:latest
+    platform: linux/amd64
+    container_name: lawal2_unique_backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@lawal2_unique_postgres:5432/lawaldb?schema=public
+    depends_on:
+      - lawal2_unique_postgres
+      - lawal2_unique_redis
+    ports:
+      - "9966:9958"
+    networks:
+      - lawal2_unique_network
+
+  lawal2_unique_postgres:
+    image: postgres:17
+    container_name: lawal2_unique_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lawaldb
+    volumes:
+      - lawal2_unique_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5441:5432"
+    networks:
+      - lawal2_unique_network
+
+  lawal2_unique_redis:
+    image: redis:7
+    container_name: lawal2_unique_redis
+    restart: always
+    volumes:
+      - lawal2_unique_redisdata:/data
+    ports:
+      - "6385:6379"
+    networks:
+      - lawal2_unique_network
+
+#   prisma_studio:
+#     image: node:20-bullseye
+#     container_name: prisma_studio
+# #    working_dir: /app
+#     restart: always
+#     depends_on:
+#       - postgres_db
+#     environment:
+#       DATABASE_URL: "postgresql://postgres:postgres@postgres_db:5432/appdb?schema=public"
+# #    volumes:
+# #      - ".:/app"
+#     command: sh -c "npx prisma studio --port 5555 --browser none"
+#     ports:
+#       - "5555:5555"
+#     networks:
+#       - app_network
+
+volumes:
+  lawal2_unique_pgdata:
+  lawal2_unique_redisdata:
+
+networks:
+  lawal2_unique_network:
+    driver: bridge
