@@ -8,7 +8,5 @@ export default defineConfig({
   },
   datasource: {
     url: env('DATABASE_URL'),
-    // @ts-expect-error: directUrl is not yet typed in @prisma/config
-    directUrl: env('DIRECT_URL'),
   },
 });
