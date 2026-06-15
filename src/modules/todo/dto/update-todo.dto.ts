@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateTodoDto } from './create-todo.dto';
-import { IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class UpdateTodoDto extends PartialType(CreateTodoDto) {
   @IsOptional()
@@ -10,6 +10,6 @@ export class UpdateTodoDto extends PartialType(CreateTodoDto) {
   @IsString()
   description?: string;
   @IsOptional()
-  @IsString()
-  isCompleted?: boolean;
+  @IsBoolean()
+  isComplete?: boolean;
 }

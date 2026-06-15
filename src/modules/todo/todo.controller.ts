@@ -10,7 +10,9 @@ import {
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('todos')
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
@@ -31,8 +33,8 @@ export class TodoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(id, updateTodoDto);
+  update(@Param('id') id: string, @Body() updateTodo: UpdateTodoDto) {
+    return this.todoService.update(id, updateTodo);
   }
 
   @Delete(':id')

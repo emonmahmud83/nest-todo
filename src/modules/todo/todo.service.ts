@@ -12,8 +12,8 @@ export class TodoService {
     });
   }
 
-  findAll() {
-    return `This action returns all todo`;
+  async findAll() {
+    return await this.prisma.client.todo.findMany();
   }
 
   async findOne(id: string) {
@@ -30,22 +30,28 @@ export class TodoService {
     }
   }
 
-  async update(id: string, updateTodoDto: UpdateTodoDto) {
-    try {
-      const todo = await this.prisma.client.todo.findUnique({ where: { id } });
-      if (!todo) {
-        throw new Error('Todo not found');
-      }
-      return this.prisma.client.todo.update({
-        where: { id },
-        data: updateTodoDto,
-      });
-    } catch {
-      throw new Error('Todo not found');
+  async update(id: string, updateTodo: UpdateTodoDto) {
+    const todo = await this.prisma.client.todo.findUnique({ where: { id } });
+    if (!todo) {
+      throw new NotFoundException(`Todo with ID ${id} not found`);
     }
+    return this.prisma.client.todo.update({
+      where: { id },
+      data: updateTodo,
+    });
   }
 
-  remove(id) {
-    return `This action removes a #${id} todo`;
+  async remove(id: string) {
+    const todo = await this.prisma.client.todo.findUnique({
+      where: { id },
+    });
+
+    if (!todo) {
+      throw new NotFoundException(`Todo with ID ${id} not found`);
+    }
+
+    return this.prisma.client.todo.delete({
+      where: { id },
+    });
   }
 }
