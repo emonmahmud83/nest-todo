@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('todo api')
     .setDescription('the todo api description')
     .setVersion('1.1.0')
+    .addBearerAuth() // এই লাইনটি যোগ করা হলো
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
