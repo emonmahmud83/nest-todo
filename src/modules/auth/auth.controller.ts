@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
+import { VerifyDto } from './dto/verify.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -12,6 +13,10 @@ export class AuthController {
   @Post('signup')
   async signup(@Body() createUserDto: CreateUserDto) {
     return this.authService.signup(createUserDto);
+  }
+  @Post('verify')
+  async verify(@Body() verifyDto: VerifyDto) {
+    return this.authService.verify(verifyDto);
   }
 
   @Post('login')

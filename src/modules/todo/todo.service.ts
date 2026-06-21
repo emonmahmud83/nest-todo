@@ -6,14 +6,22 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class TodoService {
   constructor(private prisma: PrismaService) {}
-  create(createTodoDto: CreateTodoDto) {
+  create(createTodoDto: CreateTodoDto, UserId: string) {
     return this.prisma.client.todo.create({
-      data: createTodoDto,
+      data: {
+        ...createTodoDto,
+        userId: UserId,
+      },
     });
   }
 
   async findAll() {
     return await this.prisma.client.todo.findMany();
+  }
+  async findAllByUser(userId: string) {
+    return await this.prisma.client.todo.findMany({
+      where: { userId },
+    });
   }
 
   async findOne(id: string) {
