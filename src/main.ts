@@ -11,16 +11,16 @@ async function bootstrap() {
     .setTitle('todo api')
     .setDescription('the todo api description')
     .setVersion('1.1.0')
-    .addBearerAuth() // এই লাইনটি যোগ করা হলো
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
-  console.log(`🚀 Application is running successfully on port 3000`);
+  console.log(`Application is running successfully on port 3000`);
 }
 
 bootstrap().catch((err) => {
-  console.error('❌ Error during bootstrap:', err);
+  console.error('Error during bootstrap:', err);
   process.exit(1);
 });
